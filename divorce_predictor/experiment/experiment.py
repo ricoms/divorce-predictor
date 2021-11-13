@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from joblib import dump
-from sklearn.dummy import DummyClassifier
+from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import cross_validate
 
 from divorce_predictor.base import BaseExperiment
@@ -17,7 +17,7 @@ class Experiment(BaseExperiment):
 
     def setup(self):
         self.scoring = ["roc_auc", "balanced_accuracy"]
-        self.model = DummyClassifier()
+        self.model = GaussianNB()
 
     def run(self):
         self.cv_results = cross_validate(
@@ -33,7 +33,7 @@ class Experiment(BaseExperiment):
         )
         best_model_idx = np.argmax(self.cv_results["test_roc_auc"])
         self.best_model = self.cv_results["estimator"][best_model_idx]
-        self.predicted = self.best_model.predict(self.y)
+        self.predicted = self.best_model.predict(self.X)
         self.cv_results = pd.DataFrame(self.cv_results)
 
     def persist(self, output_path: Path):
