@@ -1,7 +1,0 @@
-stages:
-  get_data:
-    cmd: ./scripts/get_data.sh
-    deps:
-    - scripts/get_data.sh
-    outs:
-    - ml/input/data/divorce.csv
