@@ -43,11 +43,3 @@ poetry run make coverage
 ```
 
 Above command will run all unit tests and check that test coverage is above and specified percentage, defined inside `Makefile`.
-
-## Requirement setup
-
-crate .env com variáveis de KAGGLE_KEY, KAGGLE_USERNAME
-
-# How to use this package
-
-##TODO
