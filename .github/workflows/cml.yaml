@@ -8,7 +8,6 @@ on:
 jobs:
   run:
     runs-on: [ubuntu-latest]
-
     steps:
       - uses: actions/checkout@v2
       - uses: iterative/setup-cml@v1
@@ -21,6 +20,8 @@ jobs:
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          sudo apt update
+          sudo apt install build-essential
           pip install --no-cache-dir "poetry==1.1.4"
           poetry config virtualenvs.create false
           poetry install --no-dev --no-interaction --no-ansi
