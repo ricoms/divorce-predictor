@@ -1,0 +1,12 @@
+schema: '2.0'
+stages:
+  get_data:
+    cmd: ./scripts/get_data.sh
+    deps:
+    - path: scripts/get_data.sh
+      md5: 05f7b675c191dd8c595888a13a11af4b
+      size: 235
+    outs:
+    - path: ml/input/data/divorce.csv
+      md5: 066fe7cbec78bbfcf70f59bb558b9571
+      size: 19192
