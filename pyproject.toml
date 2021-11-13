@@ -2,7 +2,7 @@
 name = "divorce_predictor"
 version = "0.1.0"
 description = "A machine learning experiment to predict divorces."
-authors = ["Ricardo Savii <ricardosavi@gmail.com>"]
+authors = ["Ricardo Savii <ricardosavi@g.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
