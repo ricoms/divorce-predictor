@@ -45,6 +45,8 @@ jobs:
 
           cml-send-comment report.md
 
+          git config --global user.name 'ricoms'
+          git config --global user.email 'ricoms@users.noreply.github.com'
           git add dvc.lock
           git add ml/output
           git commit -m "ran new experiment"
