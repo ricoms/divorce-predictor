@@ -1,0 +1,39 @@
+{
+    "train": [
+        {
+            "fit_time": 0.0003859996795654297,
+            "test_balanced_accuracy": 0.5,
+            "test_roc_auc": 0.5,
+            "train_balanced_accuracy": 0.5,
+            "train_roc_auc": 0.5
+        },
+        {
+            "fit_time": 0.0003559589385986328,
+            "test_balanced_accuracy": 0.5,
+            "test_roc_auc": 0.5,
+            "train_balanced_accuracy": 0.5,
+            "train_roc_auc": 0.5
+        },
+        {
+            "fit_time": 0.0003445148468017578,
+            "test_balanced_accuracy": 0.5,
+            "test_roc_auc": 0.5,
+            "train_balanced_accuracy": 0.5,
+            "train_roc_auc": 0.5
+        },
+        {
+            "fit_time": 0.0002887248992919922,
+            "test_balanced_accuracy": 0.5,
+            "test_roc_auc": 0.5,
+            "train_balanced_accuracy": 0.5,
+            "train_roc_auc": 0.5
+        },
+        {
+            "fit_time": 0.000278472900390625,
+            "test_balanced_accuracy": 0.5,
+            "test_roc_auc": 0.5,
+            "train_balanced_accuracy": 0.5,
+            "train_roc_auc": 0.5
+        }
+    ]
+}
