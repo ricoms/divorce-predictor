@@ -3,24 +3,19 @@
 ![version 0.1.0][img_version]
 ![python 3.7.1 | 3.8 | 3.9][python_version]
 
-[img_version]: https://img.shields.io/static/v1.svg?label=version&message=0.3.0&color=blue
+[img_version]: https://img.shields.io/static/v1.svg?label=version&message=0.1.0&color=blue
 [python_version]: https://img.shields.io/static/v1.svg?label=python&message=3.7.1%20|%203.8%20|%203.9&color=blue
 
-Agnostic automl model for machine learning projects.
+This is a Machine Learning project that is to be used on experimentation tracking and data science training.
+The [Divorce Predictors data set](https://archive.ics.uci.edu/ml/datasets/Divorce+Predictors+data+set) is used as a
 
 # How to install
 
 To setup this repository locally for testing and implementation please follow this guidelines. This repository is based on [Python 3.7.1](https://www.python.org/) or above, [Makefile](https://opensource.com/article/18/8/what-how-makefile) and [Poetry](https://python-poetry.org/). **Poetry** is extensively used as a virtual environment manager, if you use other virtual environment manager, double check the orientations and commands that will be showing here.
-After cloning this repository, and having poetry and python 3.7.1 or up installed, run the following command for installing this package for common usage:
+After cloning this repository, and having poetry and python 3.7.1 or above installed, run the following command for installing this package for common usage:
 
 ```sh
 make install
-```
-
-Data source provides compacted file using **rar** format, for this you need to install `rar` to decompress the data. To do this on Mac, apply the command below:
-
-```sh
-brew install --cask the-unarchiver
 ```
 
 ## Advanced (development)
