@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from joblib import dump
-from sklearn.naive_bayes import GaussianNB
+from sklearn.dummy import DummyClassifier
 from sklearn.model_selection import cross_validate
 
 from divorce_predictor.base import BaseExperiment
@@ -17,7 +17,7 @@ class Experiment(BaseExperiment):
 
     def setup(self):
         self.scoring = ["roc_auc", "balanced_accuracy"]
-        self.model = GaussianNB()
+        self.model = DummyClassifier()
 
     def run(self):
         self.cv_results = cross_validate(
