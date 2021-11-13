@@ -29,4 +29,4 @@ jobs:
           git add dvc.lock
           git add ml/output
           git commit -m "ran new experiment"
-          git push origin HEAD:${{ github.head_ref }}
+          git push origin HEAD:${{ github.base_ref }}
