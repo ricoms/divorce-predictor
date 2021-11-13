@@ -1,39 +1,39 @@
 {
     "train": [
         {
-            "fit_time": 0.0003960132598876953,
-            "test_balanced_accuracy": 0.5,
-            "test_roc_auc": 0.5,
-            "train_balanced_accuracy": 0.5,
-            "train_roc_auc": 0.5
+            "fit_time": 0.0009191036224365234,
+            "test_balanced_accuracy": 0.8529411764705882,
+            "test_roc_auc": 0.9636678200692042,
+            "train_balanced_accuracy": 1.0,
+            "train_roc_auc": 1.0
         },
         {
-            "fit_time": 0.0004029273986816406,
-            "test_balanced_accuracy": 0.5,
-            "test_roc_auc": 0.5,
-            "train_balanced_accuracy": 0.5,
-            "train_roc_auc": 0.5
+            "fit_time": 0.0009272098541259766,
+            "test_balanced_accuracy": 1.0,
+            "test_roc_auc": 1.0,
+            "train_balanced_accuracy": 0.9776119402985075,
+            "train_roc_auc": 1.0
         },
         {
-            "fit_time": 0.00034809112548828125,
-            "test_balanced_accuracy": 0.5,
-            "test_roc_auc": 0.5,
-            "train_balanced_accuracy": 0.5,
-            "train_roc_auc": 0.5
+            "fit_time": 0.0009081363677978516,
+            "test_balanced_accuracy": 1.0,
+            "test_roc_auc": 1.0,
+            "train_balanced_accuracy": 0.9776119402985075,
+            "train_roc_auc": 1.0
         },
         {
-            "fit_time": 0.0003330707550048828,
-            "test_balanced_accuracy": 0.5,
-            "test_roc_auc": 0.5,
-            "train_balanced_accuracy": 0.5,
-            "train_roc_auc": 0.5
+            "fit_time": 0.0009169578552246094,
+            "test_balanced_accuracy": 1.0,
+            "test_roc_auc": 1.0,
+            "train_balanced_accuracy": 0.9776119402985075,
+            "train_roc_auc": 1.0
         },
         {
-            "fit_time": 0.000392913818359375,
-            "test_balanced_accuracy": 0.5,
-            "test_roc_auc": 0.5,
-            "train_balanced_accuracy": 0.5,
-            "train_roc_auc": 0.5
+            "fit_time": 0.00098419189453125,
+            "test_balanced_accuracy": 1.0,
+            "test_roc_auc": 1.0,
+            "train_balanced_accuracy": 0.9779411764705883,
+            "train_roc_auc": 1.0
         }
     ]
 }
