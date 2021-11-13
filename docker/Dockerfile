@@ -23,7 +23,3 @@ RUN poetry config virtualenvs.create false \
     && poetry install \
         $(if [ "$ENVIRON" = 'production' ]; then echo '--no-dev'; fi) \
         --no-interaction --no-ansi
-
-
-ENTRYPOINT [ "hermod" ]
-CMD ["--help"]
