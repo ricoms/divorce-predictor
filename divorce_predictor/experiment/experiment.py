@@ -33,7 +33,7 @@ class Experiment(BaseExperiment):
         )
         best_model_idx = np.argmax(self.cv_results["test_roc_auc"])
         self.best_model = self.cv_results["estimator"][best_model_idx]
-        self.predicted = self.best_model.predict(self.y)
+        self.predicted = self.best_model.predict(self.X)
         self.cv_results = pd.DataFrame(self.cv_results)
 
     def persist(self, output_path: Path):
