@@ -24,7 +24,6 @@ dictdiffer==0.9.0
 diskcache==5.2.1
 distlib==0.3.3
 distro==1.6.0
-divorce-predictor==0.1.0
 dpath==2.0.5
 dulwich==0.20.26
 dvc==2.8.3
