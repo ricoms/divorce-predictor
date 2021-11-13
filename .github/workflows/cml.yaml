@@ -1,0 +1,65 @@
+name: train-my-model
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run:
+    runs-on: [ubuntu-latest]
+    container: docker://ghcr.io/iterative/cml:0-dvc2-base1
+    steps:
+      - uses: actions/checkout@v2
+      - name: Train model
+        env:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pip install --no-cache-dir "poetry==1.1.4"
+          poetry config virtualenvs.create false
+          poetry install --no-dev --no-interaction --no-ansi
+
+          # Reproduce pipeline if any changes detected in dependencies
+          dvc repro --force
+
+          # Use DVC metrics diff to compare metrics to main
+          git fetch --prune --unshallow
+          echo "## Metrics" >> report.md
+          dvc metrics diff main --show-md >> report.md
+
+          # Publish confusion matrix diff
+          echo "## Plots" >> report.md
+          echo "### Class confusions" >> report.md
+          dvc plots diff \
+            --target ml/output/confusion.csv \
+            --template confusion \
+            -x actual \
+            -y predicted \
+            --show-vega main > vega.json
+          vl2png vega.json -s 1.5 | cml publish --md >> report.md
+
+          # Add figure to report
+          echo "### CV Scores" >> report.md
+          dvc plots diff --target ml/output/scores.json -y fit_time --show-vega main > vega.json
+          vl2png vega.json -s 1.5 | cml-publish --md >> report.md
+
+          dvc plots diff --target ml/output/scores.json -y test_balanced_accuracy --show-vega main > vega.json
+          vl2png vega.json -s 1.5 | cml-publish --md >> report.md
+
+          dvc plots diff --target ml/output/scores.json -y train_balanced_accuracy --show-vega main > vega.json
+          vl2png vega.json -s 1.5 | cml-publish --md >> report.md
+
+          dvc plots diff --target ml/output/scores.json -y test_roc_auc --show-vega main > vega.json
+          vl2png vega.json -s 1.5 | cml-publish --md >> report.md
+
+          dvc plots diff --target ml/output/scores.json -y train_roc_auc --show-vega main > vega.json
+          vl2png vega.json -s 1.5 | cml-publish --md >> report.md
+
+          cml-send-comment report.md
+
+          git config --global user.name 'ricoms'
+          git config --global user.email 'ricoms@users.noreply.github.com'
+          git add dvc.lock
+          git add ml/output
+          git commit -m "ran new experiment"
+          git push origin HEAD:${{ github.base_ref }}
