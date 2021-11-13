@@ -19,15 +19,15 @@ jobs:
           poetry config virtualenvs.create false
           poetry install --no-dev --no-interaction --no-ansi
 
-          # Reproduce pipeline if any changes detected in dependencies
+          echo "# Reproduce pipeline if any changes detected in dependencies"
           dvc repro --force
 
-          # Use DVC metrics diff to compare metrics to main
+          echo "# Use DVC metrics diff to compare metrics to main"
           git fetch --prune --unshallow
           echo "## Metrics" >> report.md
           dvc metrics diff main --show-md >> report.md
 
-          # Publish confusion matrix diff
+          echo "# Publish confusion matrix diff"
           echo "## Plots" >> report.md
           echo "### Class confusions" >> report.md
           dvc plots diff \
@@ -38,20 +38,25 @@ jobs:
             --show-vega main > vega.json
           vl2png vega.json -s 1.5 | cml publish --md >> report.md
 
-          # Add figure to report
+          echo "# Add CV figures to report"
           echo "### CV Scores" >> report.md
+          echo "# Add fit_time to report"
           dvc plots diff --target ml/output/scores.json -y fit_time --show-vega main > vega.json
           vl2png vega.json -s 1.5 | cml-publish --md >> report.md
 
+          echo "# Add test_balanced_accuracy to report"
           dvc plots diff --target ml/output/scores.json -y test_balanced_accuracy --show-vega main > vega.json
           vl2png vega.json -s 1.5 | cml-publish --md >> report.md
 
+          echo "# Add train_balanced_accuracy to report"
           dvc plots diff --target ml/output/scores.json -y train_balanced_accuracy --show-vega main > vega.json
           vl2png vega.json -s 1.5 | cml-publish --md >> report.md
 
+          echo "# Add test_roc_auc to report"
           dvc plots diff --target ml/output/scores.json -y test_roc_auc --show-vega main > vega.json
           vl2png vega.json -s 1.5 | cml-publish --md >> report.md
 
+          echo "# Add train_roc_auc to report"
           dvc plots diff --target ml/output/scores.json -y train_roc_auc --show-vega main > vega.json
           vl2png vega.json -s 1.5 | cml-publish --md >> report.md
 
