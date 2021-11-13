@@ -1,5 +1,5 @@
 {
-    "fit_time": 0.00037274360656738283,
+    "fit_time": 0.000374603271484375,
     "test_balanced_accuracy": 0.5,
     "test_roc_auc": 0.5,
     "train_balanced_accuracy": 0.5,
