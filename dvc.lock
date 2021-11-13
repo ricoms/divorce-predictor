@@ -8,14 +8,24 @@ stages:
       size: 19192
     outs:
     - path: ml/output/avg_scores.json
+<<<<<<< HEAD
       md5: 1696c3cbf2d2483945d3afd691beb276
       size: 164
+=======
+      md5: 105a5fbaeb819abc40a3caeab1c3a62b
+      size: 208
+>>>>>>> 5da2251 (remove output files)
     - path: ml/output/confusion.csv
-      md5: 1d174f21da1ead1f6fa5419566d90a5e
+      md5: ee6a231392cb00860b79c04b6a67b249
       size: 697
     - path: ml/output/estimator.joblib
-      md5: f7fe6343715463f32b221c23ad71c8cd
-      size: 504
+      md5: caeba531ecb373a68874ffd0e4fcfdfd
+      size: 2548
     - path: ml/output/scores.json
+<<<<<<< HEAD
       md5: 2d6e16be4b052c0b8739673858c1f337
       size: 1129
+=======
+      md5: 60027aba07daeee2fc113dca8cfdb05c
+      size: 1216
+>>>>>>> 5da2251 (remove output files)
