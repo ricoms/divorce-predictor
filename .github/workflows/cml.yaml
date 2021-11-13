@@ -21,7 +21,9 @@ jobs:
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          pip install -r requirements.txt
+          pip install --no-cache-dir "poetry==1.1.4"
+          poetry config virtualenvs.create false
+          poetry install --no-dev --no-interaction --no-ansi
 
           # Reproduce pipeline if any changes detected in dependencies
           dvc repro
