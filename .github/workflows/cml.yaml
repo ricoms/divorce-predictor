@@ -22,10 +22,10 @@ jobs:
           # Reproduce pipeline if any changes detected in dependencies
           dvc repro
 
-          # Use DVC metrics diff to compare metrics to master
+          # Use DVC metrics diff to compare metrics to main
           git fetch --prune --unshallow
           echo "## Metrics" >> report.md
-          dvc metrics diff master --show-md >> report.md
+          dvc metrics diff main --show-md >> report.md
 
           # Publish confusion matrix diff
           echo "## Plots" >> report.md
