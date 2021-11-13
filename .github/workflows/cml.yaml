@@ -23,6 +23,7 @@ jobs:
           dvc repro --force
 
           echo "# Push changes to repo"
+          git fetch --prune --unshallow
           git config --global user.name 'ricoms'
           git config --global user.email 'ricoms@users.noreply.github.com'
           git add dvc.lock
@@ -31,7 +32,6 @@ jobs:
           git push origin HEAD:${{ github.head_ref }}
 
           echo "# Use DVC metrics diff to compare metrics to main"
-          git fetch --prune --unshallow
           echo "## Metrics" >> report.md
           dvc metrics diff main --show-md >> report.md
 
