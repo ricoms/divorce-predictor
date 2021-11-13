@@ -1,0 +1,16 @@
+stages:
+  experiment:
+    cmd: python divorce_predictor/train.py
+    deps:
+    - ml/input/data/divorce.csv
+    outs:
+    - ml/output/estimator.joblib:
+        cache: false
+    metrics:
+    - ml/output/avg_scores.json:
+        cache: false
+    plots:
+    - ml/output/confusion.csv:
+        cache: false
+    - ml/output/scores.json:
+        cache: false

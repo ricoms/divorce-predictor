@@ -1,6 +1,6 @@
 FROM python:3.8-buster AS BASE
 
-LABEL maintainer="ricardosavi@gmail.com"
+LABEL maintainer="ricardosavi@g.com"
 
 ENV PATH=/usr/local/bin:$PATH \
     PYTHONUNBUFFERED=TRUE \
