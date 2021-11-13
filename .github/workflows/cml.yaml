@@ -40,7 +40,19 @@ jobs:
 
           # Add figure to report
           echo "### CV Scores" >> report.md
-          dvc plots diff --target ml/output/scores.json --show-vega main > vega.json
+          dvc plots diff --target ml/output/scores.json -y fit_time --show-vega main > vega.json
+          vl2png vega.json -s 1.5 | cml-publish --md >> report.md
+
+          dvc plots diff --target ml/output/scores.json -y test_balanced_accuracy --show-vega main > vega.json
+          vl2png vega.json -s 1.5 | cml-publish --md >> report.md
+
+          dvc plots diff --target ml/output/scores.json -y train_balanced_accuracy --show-vega main > vega.json
+          vl2png vega.json -s 1.5 | cml-publish --md >> report.md
+
+          dvc plots diff --target ml/output/scores.json -y test_roc_auc --show-vega main > vega.json
+          vl2png vega.json -s 1.5 | cml-publish --md >> report.md
+
+          dvc plots diff --target ml/output/scores.json -y train_roc_auc --show-vega main > vega.json
           vl2png vega.json -s 1.5 | cml-publish --md >> report.md
 
           cml-send-comment report.md
