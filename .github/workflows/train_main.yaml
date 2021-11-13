@@ -1,0 +1,32 @@
+name: train-my-model
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run:
+    runs-on: [ubuntu-latest]
+    container: docker://ghcr.io/iterative/cml:0-dvc2-base1
+    steps:
+      - uses: actions/checkout@v2
+      - name: Train model
+        env:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pip install --no-cache-dir "poetry==1.1.4"
+          poetry config virtualenvs.create false
+          poetry install --no-dev --no-interaction --no-ansi
+
+          echo "# Reproduce pipeline if any changes detected in dependencies"
+          dvc repro --force
+
+          echo "# Push changes to repo"
+          git fetch --prune --unshallow
+          git config --global user.name 'ricoms'
+          git config --global user.email 'ricoms@users.noreply.github.com'
+          git add dvc.lock
+          git add ml/output
+          git commit -m "ran new experiment"
+          git push origin HEAD:${{ github.head_ref }}
