@@ -1,5 +1,5 @@
-project-packages=divorde_predictor
-project-minimum-coverage=65.0
+project-packages=divorce_predictor
+project-minimum-coverage=25.0
 time-stamp=$(shell date"+%Y-%m-%d-%H%M%S")
 WORKSPACE_TMP=reports
 DOCKER_IMAGE_NAME=${project-name}
