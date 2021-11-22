@@ -19,8 +19,11 @@ jobs:
           poetry config virtualenvs.create false
           poetry install --no-dev --no-interaction --no-ansi
 
-          echo "# Test application"
+          echo "# Test application coverage"
           make test-coverage
+
+          echo "# Test application code complexity"
+          make code-complexity
 
           echo "# Reproduce pipeline if any changes detected in dependencies"
           dvc repro --force

@@ -46,11 +46,11 @@ black:
 code-complexity:
 	radon mi --sort --json --output-file ${WORKSPACE_TMP}/mi_report.json .
 	radon cc --json --total-average --output-file ${WORKSPACE_TMP}/cc_report.json .
-	xenon --max-absolute B --max-modules B --max-average A .
+	xenon --max-absolute A --max-modules A --max-average A .
 
 .PHONY = test-coverage
 test-coverage:
-	pytest --disable-pytest-warnings --cov-report=xml:${WORKSPACE_TMP}/coverage.xml --cov-report=html:${WORKSPACE_TMP}/html --cov=${project-packages} --cov-fail-under=${project-minimum-coverage}
+	pytest --disable-pytest-warnings --cov-report=xml:${WORKSPACE_TMP}/coverage.xml --cov=${project-packages} --cov-fail-under=${project-minimum-coverage}
 
 
 .PHONY = clean
