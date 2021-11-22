@@ -19,14 +19,4 @@ jobs:
           poetry config virtualenvs.create false
           poetry install --no-dev --no-interaction --no-ansi
 
-          echo "# Reproduce pipeline if any changes detected in dependencies"
-          dvc repro --force
-
-          echo "# Push changes to repo"
-          git fetch --prune --unshallow
-          git config --global user.name 'ricoms'
-          git config --global user.email 'ricoms@users.noreply.github.com'
-          git add dvc.lock
-          git add ml/output
-          git commit -m "ran new experiment"
-          git push origin main
+          # Build and publish image with API REST
