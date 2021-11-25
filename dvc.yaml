@@ -1,5 +1,18 @@
 stages:
   get_data:
     cmd: ./scripts/get_data.sh
+    deps:
+    - scripts/get_data.sh
     outs:
     - ml/input/data/divorce.csv
+  train:
+    cmd: python divorce_predictor/train.py
+    deps:
+    - divorce_predictor
+    outs:
+    - ml/output/estimator.joblib
+    metrics:
+    - ml/output/avg_scores.json
+    plots:
+    - ml/output/confusion.csv
+    - ml/output/scores.json
