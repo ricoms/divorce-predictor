@@ -1,21 +1,8 @@
 schema: '2.0'
 stages:
-  experiment:
-    cmd: python divorce_predictor/train.py
-    deps:
+  get_data:
+    cmd: ./scripts/get_data.sh
+    outs:
     - path: ml/input/data/divorce.csv
       md5: 066fe7cbec78bbfcf70f59bb558b9571
       size: 19192
-    outs:
-    - path: ml/output/avg_scores.json
-      md5: 9bbdd27f0245b1db89c859248db996eb
-      size: 163
-    - path: ml/output/confusion.csv
-      md5: 1d174f21da1ead1f6fa5419566d90a5e
-      size: 697
-    - path: ml/output/estimator.joblib
-      md5: f7fe6343715463f32b221c23ad71c8cd
-      size: 504
-    - path: ml/output/scores.json
-      md5: 696b5e9b5b660ebcc01108d6d46bee47
-      size: 1127

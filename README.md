@@ -11,7 +11,7 @@ The [Divorce Predictors data set](https://archive.ics.uci.edu/ml/datasets/Divorc
 
 # How to install
 
-To setup this repository locally for testing and implementation please follow this guidelines. This repository is based on [Python 3.7.1](https://www.python.org/) or above, [Makefile](https://opensource.com/article/18/8/what-how-makefile) and [Poetry](https://python-poetry.org/). **Poetry** is extensively used as a virtual environment manager, if you use other virtual environment manager, double check the orientations and commands that will be showing here.
+To setup this repository locally for testing and implementation please follow this guidelines. This repository is based on [Python 3.7.1](https://www.python.org/) or above, [Makefile](https://opensource.com/article/18/8/what-how-makefile), [Poetry](https://python-poetry.org/), and [gsutil](). **Poetry** is extensively used as a virtual environment manager, if you use other virtual environment manager, double check the orientations and commands that will be showing here.
 After cloning this repository, and having poetry and python 3.7.1 or above installed, run the following command for installing this package for common usage:
 
 ```sh
