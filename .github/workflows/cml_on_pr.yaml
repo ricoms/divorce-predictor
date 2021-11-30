@@ -20,6 +20,11 @@ jobs:
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           export_default_credentials: true
 
+      - id: auth
+        uses: google-github-actions/auth@v0.4.0
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
       - name: Install packages
         run: |
           pip install --no-cache-dir "poetry==1.1.4"
@@ -34,7 +39,7 @@ jobs:
       - name: Train model
         run: |
           echo "# Reproduce pipeline if any changes detected in dependencies"
-          dvc repro --force
+          dvc repro
 
       - name: Persist Experiment
         env:
