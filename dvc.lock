@@ -14,25 +14,25 @@ stages:
     cmd: python divorce_predictor/train.py
     deps:
     - path: divorce_predictor
-      md5: c7730fbc35c52dc63b27834ea95efaae.dir
-      size: 9662
-      nfiles: 14
+      md5: f9bd191491d77ee817538a597b91a510.dir
+      size: 11725
+      nfiles: 16
     - path: ml/input/data/divorce.csv
       md5: 066fe7cbec78bbfcf70f59bb558b9571
       size: 19192
     - path: ml/input/hyperparameters.json
-      md5: 45c9fe2636c5ab504bf4ed94e28ce843
-      size: 39
+      md5: 99914b932bd37a50b983c5e7c90ae93b
+      size: 2
     outs:
     - path: ml/output/avg_scores.json
-      md5: 9d5da915c60be715cb19d8e28f74e5b6
-      size: 178
+      md5: f380ee23817e4f3935926e222733ae0a
+      size: 193
     - path: ml/output/confusion.csv
-      md5: e4f2ae026f0023518ee6d8b97f585346
+      md5: 2ec44718489bd1fc859ac80d9820ebb8
       size: 697
     - path: ml/output/estimator.joblib
-      md5: 741713153e551a9d5ad4b17293be0187
-      size: 6596
+      md5: 5dc947fa122f8da1a0a62dc2dea2b3fa
+      size: 1691
     - path: ml/output/scores.json
-      md5: f8151a5a77d84a6b4cf5aed7ba434263
-      size: 1140
+      md5: 5d3814754804ab2c61a4376997ec8675
+      size: 1218
