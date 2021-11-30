@@ -11,12 +11,85 @@ jobs:
     container: docker://ghcr.io/iterative/cml:0-dvc2-base1
     steps:
       - uses: actions/checkout@v2
-      - name: Train model
-        env:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+
+      - name: Install packages
         run: |
           pip install --no-cache-dir "poetry==1.1.4"
           poetry config virtualenvs.create false
-          poetry install --no-dev --no-interaction --no-ansi
+          poetry install --no-interaction --no-ansi
 
-          # Build and publish image with API REST
+      - name: Test coverage
+        run: |
+          echo "# Test application coverage"
+          make test-coverage
+
+      - name: Train model
+        run: |
+          echo "# Reproduce pipeline if any changes detected in dependencies"
+          dvc repro
+
+      - name: Persist Experiment
+        env:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "# Push experiment outputs to remote Storage"
+          dvc push
+
+          echo "# Push changes to repo"
+          git fetch --prune --unshallow
+          git config --global user.name 'ricoms'
+          git config --global user.email 'ricoms@users.noreply.github.com'
+          git add dvc.lock
+          git commit -m "ran new experiment"
+          git push origin HEAD:${{ github.head_ref }}
+
+      - name: Report Experiment
+        env:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "# Use DVC metrics diff to compare metrics to main"
+          echo "## Metrics" >> report.md
+          dvc metrics diff main --show-md >> report.md
+
+          echo "# Publish confusion matrix diff"
+          echo "## Plots" >> report.md
+          echo "### Class confusions" >> report.md
+          dvc plots diff \
+            --target ml/output/confusion.csv \
+            --template confusion \
+            -x actual \
+            -y predicted \
+            --show-vega main > vega.json
+          vl2png vega.json -s 1.5 | cml publish --md >> report.md
+
+          echo "# Add CV figures to report"
+          echo "### CV Scores" >> report.md
+          echo "# Add fit_time to report"
+          dvc plots diff --target ml/output/scores.json -y fit_time --show-vega main > vega.json
+          vl2png vega.json -s 1.5 | cml-publish --md >> report.md
+
+          echo "# Add test_balanced_accuracy to report"
+          dvc plots diff --target ml/output/scores.json -y test_balanced_accuracy --show-vega main > vega.json
+          vl2png vega.json -s 1.5 | cml-publish --md >> report.md
+
+          echo "# Add train_balanced_accuracy to report"
+          dvc plots diff --target ml/output/scores.json -y train_balanced_accuracy --show-vega main > vega.json
+          vl2png vega.json -s 1.5 | cml-publish --md >> report.md
+
+          echo "# Add test_roc_auc to report"
+          dvc plots diff --target ml/output/scores.json -y test_roc_auc --show-vega main > vega.json
+          vl2png vega.json -s 1.5 | cml-publish --md >> report.md
+
+          echo "# Add train_roc_auc to report"
+          dvc plots diff --target ml/output/scores.json -y train_roc_auc --show-vega main > vega.json
+          vl2png vega.json -s 1.5 | cml-publish --md >> report.md
+
+          cml-send-comment report.md
