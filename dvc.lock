@@ -1,0 +1,38 @@
+schema: '2.0'
+stages:
+  get_data:
+    cmd: ./scripts/get_data.sh
+    deps:
+    - path: scripts/get_data.sh
+      md5: 17dbc51f69fae24683c684c7627dc7ea
+      size: 71
+    outs:
+    - path: ml/input/data/divorce.csv
+      md5: 066fe7cbec78bbfcf70f59bb558b9571
+      size: 19192
+  train:
+    cmd: python divorce_predictor/train.py
+    deps:
+    - path: divorce_predictor
+      md5: 2d5d49311e691f775a89edb386d45cbb.dir
+      size: 9662
+      nfiles: 14
+    - path: ml/input/data/divorce.csv
+      md5: 066fe7cbec78bbfcf70f59bb558b9571
+      size: 19192
+    - path: ml/input/hyperparameters.json
+      md5: 45c9fe2636c5ab504bf4ed94e28ce843
+      size: 39
+    outs:
+    - path: ml/output/avg_scores.json
+      md5: 05079cc01901a63d97eb59af920c66fb
+      size: 178
+    - path: ml/output/confusion.csv
+      md5: e4f2ae026f0023518ee6d8b97f585346
+      size: 697
+    - path: ml/output/estimator.joblib
+      md5: 741713153e551a9d5ad4b17293be0187
+      size: 6596
+    - path: ml/output/scores.json
+      md5: 454cd9d86029cd0a9d531203a9dde3b8
+      size: 1143
