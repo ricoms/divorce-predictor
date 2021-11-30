@@ -1,14 +1,20 @@
-name: train-my-model
+name: Create and publish a Docker image
 
 on:
   push:
-    branches:
-      - main
+    branches: ['main']
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   run:
     runs-on: [ubuntu-latest]
-    container: docker://ghcr.io/iterative/cml:0-dvc2-base1
+    permissions:
+      contents: read
+      packages: write
+
     steps:
       - uses: actions/checkout@v2
 
@@ -34,62 +40,25 @@ jobs:
       - name: Train model
         run: |
           echo "# Reproduce pipeline if any changes detected in dependencies"
-          dvc repro
+          dvc pull
 
-      - name: Persist Experiment
-        env:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "# Push experiment outputs to remote Storage"
-          dvc push
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-          echo "# Push changes to repo"
-          git fetch --prune --unshallow
-          git config --global user.name 'ricoms'
-          git config --global user.email 'ricoms@users.noreply.github.com'
-          git add dvc.lock
-          git commit -m "ran new experiment"
-          git push origin HEAD:${{ github.head_ref }}
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Report Experiment
-        env:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "# Use DVC metrics diff to compare metrics to main"
-          echo "## Metrics" >> report.md
-          dvc metrics diff main --show-md >> report.md
-
-          echo "# Publish confusion matrix diff"
-          echo "## Plots" >> report.md
-          echo "### Class confusions" >> report.md
-          dvc plots diff \
-            --target ml/output/confusion.csv \
-            --template confusion \
-            -x actual \
-            -y predicted \
-            --show-vega main > vega.json
-          vl2png vega.json -s 1.5 | cml publish --md >> report.md
-
-          echo "# Add CV figures to report"
-          echo "### CV Scores" >> report.md
-          echo "# Add fit_time to report"
-          dvc plots diff --target ml/output/scores.json -y fit_time --show-vega main > vega.json
-          vl2png vega.json -s 1.5 | cml-publish --md >> report.md
-
-          echo "# Add test_balanced_accuracy to report"
-          dvc plots diff --target ml/output/scores.json -y test_balanced_accuracy --show-vega main > vega.json
-          vl2png vega.json -s 1.5 | cml-publish --md >> report.md
-
-          echo "# Add train_balanced_accuracy to report"
-          dvc plots diff --target ml/output/scores.json -y train_balanced_accuracy --show-vega main > vega.json
-          vl2png vega.json -s 1.5 | cml-publish --md >> report.md
-
-          echo "# Add test_roc_auc to report"
-          dvc plots diff --target ml/output/scores.json -y test_roc_auc --show-vega main > vega.json
-          vl2png vega.json -s 1.5 | cml-publish --md >> report.md
-
-          echo "# Add train_roc_auc to report"
-          dvc plots diff --target ml/output/scores.json -y train_roc_auc --show-vega main > vega.json
-          vl2png vega.json -s 1.5 | cml-publish --md >> report.md
-
-          cml-send-comment report.md
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

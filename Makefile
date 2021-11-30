@@ -2,7 +2,7 @@ project-packages=divorce_predictor
 project-minimum-coverage=25.0
 time-stamp=$(shell date"+%Y-%m-%d-%H%M%S")
 WORKSPACE_TMP=reports
-DOCKER_IMAGE_NAME=${project-name}
+DOCKER_IMAGE_NAME=${project-packages}
 DOCKERFILE=docker/Dockerfile
 ENVIRON=production
 

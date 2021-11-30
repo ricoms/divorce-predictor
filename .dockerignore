@@ -1,0 +1,12 @@
+*
+!pyproject.toml
+!poetry.lock
+!Makefile
+!divorce_predictor/
+!divorce_predictor/*
+!tests/
+!tests/*
+!ml/
+!ml/*
+!README.md
+!.flake8
