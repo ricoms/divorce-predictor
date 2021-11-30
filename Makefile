@@ -42,12 +42,6 @@ flake:
 black:
 	black ${project-packages}
 
-.PHONY = code-complexity
-code-complexity:
-	radon mi --sort --json --output-file ${WORKSPACE_TMP}/mi_report.json .
-	radon cc --json --total-average --output-file ${WORKSPACE_TMP}/cc_report.json .
-	xenon --max-absolute A --max-modules A --max-average A .
-
 .PHONY = test-coverage
 test-coverage:
 	pytest --disable-pytest-warnings --cov-report=xml:${WORKSPACE_TMP}/coverage.xml --cov=${project-packages} --cov-fail-under=${project-minimum-coverage}
@@ -62,10 +56,6 @@ clean:
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*.pyc' -exec rm -f {} +
 	rm -rf dist
-
-coverage: ${WORKSPACE_TMP} test-coverage
-
-static-analysis: ${WORKSPACE_TMP} code-complexity flake
 
 patch:
 	poetry run bumpver update --patch --commit-message "[patch-version] {old_version} -> {new_version}"
