@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from joblib import dump
 from sklearn.model_selection import cross_validate
-from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
 
 from divorce_predictor.base import BaseExperiment
 
@@ -19,7 +19,7 @@ class Experiment(BaseExperiment):
 
     def setup(self):
         self.scoring = ["roc_auc", "balanced_accuracy"]
-        self.model = SVC(**self.hyperparameters)
+        self.model = DecisionTreeClassifier(**self.hyperparameters)
 
     def run(self):
         self.cv_results = cross_validate(
