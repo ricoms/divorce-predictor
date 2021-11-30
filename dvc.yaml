@@ -8,6 +8,7 @@ stages:
   train:
     cmd: python divorce_predictor/train.py
     deps:
+    - ml/input/data/divorce.csv
     - divorce_predictor
     - ml/input/hyperparameters.json
     outs:
