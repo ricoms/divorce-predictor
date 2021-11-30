@@ -20,6 +20,8 @@ jobs:
       - name: Train model
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
         run: |
           pip install --no-cache-dir "poetry==1.1.4"
           poetry config virtualenvs.create false
@@ -30,6 +32,7 @@ jobs:
 
           echo "# Reproduce pipeline if any changes detected in dependencies"
           dvc repro --force
+          dvc push
 
           echo "# Push changes to repo"
           git fetch --prune --unshallow
@@ -38,7 +41,6 @@ jobs:
           git add dvc.lock
           git commit -m "ran new experiment"
           git push origin HEAD:${{ github.head_ref }}
-          dvc push
 
           echo "# Use DVC metrics diff to compare metrics to main"
           echo "## Metrics" >> report.md
