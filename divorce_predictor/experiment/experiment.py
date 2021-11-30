@@ -1,23 +1,25 @@
 import json
 from pathlib import Path
+from typing import Dict
 
 import numpy as np
 import pandas as pd
 from joblib import dump
-from sklearn.dummy import DummyClassifier
 from sklearn.model_selection import cross_validate
+from sklearn.svm import SVC
 
 from divorce_predictor.base import BaseExperiment
 
 
 class Experiment(BaseExperiment):
-    def __init__(self, X: np.ndarray, y: np.ndarray):
+    def __init__(self, X: np.ndarray, y: np.ndarray, hyperparameters: Dict):
         self.X = X
         self.y = y
+        self.hyperparameters = hyperparameters
 
     def setup(self):
         self.scoring = ["roc_auc", "balanced_accuracy"]
-        self.model = DummyClassifier()
+        self.model = SVC(**self.hyperparameters)
 
     def run(self):
         self.cv_results = cross_validate(
