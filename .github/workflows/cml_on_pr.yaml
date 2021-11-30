@@ -10,37 +10,51 @@ jobs:
     runs-on: [ubuntu-latest]
     container: docker://ghcr.io/iterative/cml:0-dvc2-base1
     steps:
+      - uses: actions/checkout@v2
+
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@master
         with:
+          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           export_default_credentials: true
-      - uses: actions/checkout@v2
-      - name: Train model
-        env:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install packages
         run: |
           pip install --no-cache-dir "poetry==1.1.4"
           poetry config virtualenvs.create false
-          poetry install --no-dev --no-interaction --no-ansi
+          poetry install --no-interaction --no-ansi
 
+      - name: Test coverage
+        run: |
           echo "# Test application coverage"
+          make test-coverage
 
-          echo "# Test application code complexity"
-
+      - name: Train model
+        run: |
           echo "# Reproduce pipeline if any changes detected in dependencies"
-          dvc repro --force
+          dvc repro
+
+      - name: Persist Experiment
+        env:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "# Push experiment outputs to remote Storage"
+          dvc push
 
           echo "# Push changes to repo"
           git fetch --prune --unshallow
           git config --global user.name 'ricoms'
           git config --global user.email 'ricoms@users.noreply.github.com'
           git add dvc.lock
-          git add ml/output
           git commit -m "ran new experiment"
           git push origin HEAD:${{ github.head_ref }}
 
+      - name: Report Experiment
+        env:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
           echo "# Use DVC metrics diff to compare metrics to main"
           echo "## Metrics" >> report.md
           dvc metrics diff main --show-md >> report.md
