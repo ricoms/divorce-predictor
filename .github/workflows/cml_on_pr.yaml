@@ -29,16 +29,12 @@ jobs:
           make test-coverage
 
           echo "# Reproduce pipeline if any changes detected in dependencies"
-          dvc repro --force
+          dvc repro
 
           echo "# Push changes to repo"
-          git fetch --prune --unshallow
-          git config --global user.name 'ricoms'
-          git config --global user.email 'ricoms@users.noreply.github.com'
-          git add dvc.lock
-          git add ml/output
-          git commit -m "ran new experiment"
-          git push origin HEAD:${{ github.head_ref }}
+          dvc add dvc.lock
+          dvc add ml/output
+          dvc push
 
           echo "# Use DVC metrics diff to compare metrics to main"
           echo "## Metrics" >> report.md
